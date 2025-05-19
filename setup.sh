@@ -51,7 +51,7 @@ echo "pip3 is installed at: $(command -v pip3)"
 if ! command -v curl >/dev/null 2>&1; then
     echo "curl not found. Installing curl..."
     if command -v apt-get >/dev/null 2>&1; then
-        apt-get update -y && apt-get install -y curl
+        && apt-get install -y curl
     elif command -v yum >/dev/null 2>&1; then
         yum install -y curl
     elif command -v dnf >/dev/null 2>&1; then
