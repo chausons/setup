@@ -39,6 +39,7 @@ echo "Running as root."
 if ! command -v pip3 >/dev/null 2>&1; then
     echo "pip3 not found. Installing pip3..."
     if command -v apt-get >/dev/null 2>&1; then
+        apt-get update -y --fix-missing
         apt-get install -y python3-pip
     elif command -v yum >/dev/null 2>&1; then
         yum install -y python3-pip
