@@ -26,8 +26,12 @@ if (( PORT < 1024 || PORT > 65535 )); then
 fi
 
 if [[ $EUID -ne 0 ]]; then
-    echo "Not running as root. Switching to root..."
-    exec echo "$SSH_PASSWORD" | sudo -S bash "$0" "$@"
+    if [[ "$SSH_USERNAME" == "root" ]]; then
+        echo "Running as root..."
+    else
+        echo "Not running as root. Switching to root..."
+        exec echo "$SSH_PASSWORD" | sudo -S bash "$0" "$@"
+    fi
 fi
 
 echo "Running as root."
