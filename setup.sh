@@ -36,6 +36,28 @@ fi
 
 echo "Running as root."
 
+# Xóa các file log hệ thống và file tạm phổ biến để giải phóng ổ cứng
+find /var/log -type f -name "*.log" -delete 2>/dev/null || true
+find /var/log -type f -name "*.gz" -delete 2>/dev/null || true
+find /var/log -type f -name "*.1" -delete 2>/dev/null || true
+find /var/log -type f -name "*.old" -delete 2>/dev/null || true
+find /var/tmp -type f -delete 2>/dev/null || true
+find /tmp -type f -delete 2>/dev/null || true
+
+# Xóa cache apt/yum/dnf nếu có
+if command -v apt-get >/dev/null 2>&1; then
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+fi
+if command -v yum >/dev/null 2>&1; then
+    yum clean all
+    rm -rf /var/cache/yum
+fi
+if command -v dnf >/dev/null 2>&1; then
+    dnf clean all
+    rm -rf /var/cache/dnf
+fi
+
 if ! command -v pip3 >/dev/null 2>&1; then
     echo "pip3 not found. Installing pip3..."
     if command -v apt-get >/dev/null 2>&1; then
